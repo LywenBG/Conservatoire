@@ -1,0 +1,6 @@
+C:
+
+cd wamp64\bin\mariadb\mariadb10.6.5\bin
+mysql -u admcons -p -h 192.168.5.240 -P 3307
+
+mdp : pwadmcons

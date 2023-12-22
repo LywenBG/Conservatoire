@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+
+<AnchorPane prefHeight="400.0" prefWidth="197.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.martinb.conservatoire.controller.MenuController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ConservatoireNice.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="78.0" layoutY="172.0" text="Horaires" />
+      <Label layoutX="62.0" layoutY="245.0" onMouseClicked="#saisie" text="Saisie Partition" underline="true">
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color green="0.800000011920929" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color green="0.8156862854957581" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill></Label>
+      <Label layoutX="50.0" layoutY="320.0" onMouseClicked="#recherche" text="Recherche Partition" textFill="#00d0ff" underline="true" />
+   </children>
+</AnchorPane>
