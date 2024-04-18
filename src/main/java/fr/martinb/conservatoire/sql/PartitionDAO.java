@@ -44,25 +44,26 @@ public class PartitionDAO {
 
     public void ajouterPartition(String partitionNom, String partitionAuteur) throws SQLException {
 
-        ResultSet resultSet = DAO.getStatement().executeQuery("""
-            SELECT MAX(PARNUM) FROM PARTITIONS;
-        """);
-        resultSet.next();
+        try (ResultSet resultSet = DAO.getStatement().executeQuery("""
+                SELECT MAX(PARNUM) FROM PARTITIONS;
+            """)) {
+            resultSet.next();
 
-        preparedStatement = connection.prepareStatement("""
-            INSERT INTO PARTITIONS VALUES (?, ?, ?);
-        """);
+            preparedStatement = connection.prepareStatement("""
+                INSERT INTO PARTITIONS VALUES (?, ?, ?);
+            """);
 
-        preparedStatement.setInt(1, resultSet.getInt(1) + 1);
-        preparedStatement.setString(2, partitionNom);
-        preparedStatement.setString(3, partitionAuteur);
+            preparedStatement.setInt(1, resultSet.getInt(1) + 1);
+            preparedStatement.setString(2, partitionNom);
+            preparedStatement.setString(3, partitionAuteur);
 
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+        }
     }
 
     public void supprimerPartition(String titre, String auteur) throws SQLException {
         ResultSet resultSet = getPartition(titre, auteur);
-        if(!resultSet.next()) return;
+        if (!resultSet.next()) return;
 
         Eleve eleve = App.getEleve();
         int numero = resultSet.getInt("PARNUM");
