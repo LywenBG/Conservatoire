@@ -80,6 +80,7 @@ public class PartitionsController implements Initializable {
                 morceaux.put(phrase, new String[]{titre, auteur});
             }
             list.getItems().sort(String.CASE_INSENSITIVE_ORDER);
+            
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

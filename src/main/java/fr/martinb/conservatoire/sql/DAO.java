@@ -8,6 +8,9 @@ public class DAO {
     private static Statement statement;
 
     static {
+//        String url = "jdbc:mysql://localhost:3306/conservatoire";
+//        String loginBd = "root";
+//        String passwd = "";
 
         String url = "jdbc:mysql://192.168.5.240:3307/Conservatoire";
         String loginBd = "admcons";

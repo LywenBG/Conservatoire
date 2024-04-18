@@ -1,4 +1,17 @@
-C:
+// ALLUMER MACHINE DISTANTE
+
+Allumer pc deux cases à droite de la porte d'entrée, identifiant: \Administrateur, mdp: Rynax2023
+Lancer la machine virtuelle qui se nomme mariadb, mdp: laravel
+Aller dans le terminal:
+    Faire su, mdp: pwroot
+    Faire sudo ifup enp0s3
+
+    (voir la bdd depuis ce pc: mariadb)
+
+
+//ACCEDER DEPUIS CETTE MACHINE QUAND MACHINE DISTANTE ALLUME
+
+cd /
 
 cd wamp64\bin\mariadb\mariadb10.6.5\bin
 mysql -u admcons -p -h 192.168.5.240 -P 3307

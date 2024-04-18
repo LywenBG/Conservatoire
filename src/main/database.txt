@@ -1,0 +1,43 @@
+desc ELEVE;
++---------------+----------+------+-----+---------+-------+
+| Field         | Type     | Null | Key | Default | Extra |
++---------------+----------+------+-----+---------+-------+
+| ELENUM        | int(50)  | NO   | PRI | NULL    |       |
+| DISNUM        | int(50)  | NO   | MUL | NULL    |       |
+| ELENOM        | char(50) | YES  |     | NULL    |       |
+| ELEPRENOM     | char(50) | YES  |     | NULL    |       |
+| ELECYCLE      | int(1)   | YES  |     | NULL    |       |
+| ELEANNEECYCLE | int(1)   | YES  |     | NULL    |       |
+| ELELOGIN      | char(50) | YES  |     | NULL    |       |
+| ELEMDP        | char(50) | YES  |     | NULL    |       |
++---------------+----------+------+-----+---------+-------+
+8 rows in set (0.003 sec)
+
+    MariaDB [Conservatoire]> desc DISCIPLINE;
++------------+----------+------+-----+---------+-------+
+| Field      | Type     | Null | Key | Default | Extra |
++------------+----------+------+-----+---------+-------+
+| DISNUM     | int(50)  | NO   | PRI | NULL    |       |
+| DISLIBELLE | char(50) | YES  |     | NULL    |       |
++------------+----------+------+-----+---------+-------+
+2 rows in set (0.002 sec)
+
+    MariaDB [Conservatoire]> desc PARTITIONELEVE;
++--------------------+---------+------+-----+---------+-------+
+| Field              | Type    | Null | Key | Default | Extra |
++--------------------+---------+------+-----+---------+-------+
+| ELENUM             | int(50) | NO   | PRI | NULL    |       |
+| PARNUM             | int(50) | NO   | PRI | NULL    |       |
+| NUMEROPAGECLASSEUR | int(50) | YES  |     | NULL    |       |
++--------------------+---------+------+-----+---------+-------+
+3 rows in set (0.003 sec)
+
+    MariaDB [Conservatoire]> desc PARTITIONS;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| PARNUM    | int(50)  | NO   | PRI | NULL    |       |
+| PARNOM    | char(50) | YES  |     | NULL    |       |
+| PARAUTEUR | char(50) | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+3 rows in set (0.002 sec)
