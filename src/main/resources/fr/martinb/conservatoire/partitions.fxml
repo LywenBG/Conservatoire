@@ -16,10 +16,10 @@
          <Font name="System Bold" size="19.0" />
       </font></Label>
    <Label layoutX="301.0" layoutY="376.0" text="Ajouter une partition" />
-   <TextField fx:id="morceau" layoutX="282.0" layoutY="410.0" />
-   <Button layoutX="365.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#ajouterMorceau" text="Ajouter" />
-   <ListView fx:id="list" layoutX="241.0" layoutY="69.0" onMouseClicked="#selectionMorceau" prefHeight="200.0" prefWidth="200.0" />
-   <Label layoutX="227.0" layoutY="414.0" text="Morceau" />
+   <TextField fx:id="titre" layoutX="282.0" layoutY="410.0" />
+   <Button layoutX="365.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#ajouterPartition" text="Ajouter" />
+   <ListView fx:id="list" layoutX="241.0" layoutY="69.0" onMouseClicked="#selectionPartition" prefHeight="200.0" prefWidth="200.0" />
+   <Label layoutX="238.0" layoutY="414.0" text="Titre" />
    <Label layoutX="232.0" layoutY="459.0" text="Auteur" />
    <TextField fx:id="auteur" layoutX="282.0" layoutY="455.0" />
    <Label fx:id="texte" layoutX="464.0" layoutY="69.0" text="Mettre dans le classeur" visible="false" />
@@ -28,7 +28,7 @@
    <Button fx:id="ajouterButton" layoutX="490.0" layoutY="144.0" mnemonicParsing="false" onMouseClicked="#ajouterClasseur" text="Ajouter" visible="false" />
    <Line endX="100.0" layoutX="341.0" layoutY="353.0" startX="-100.0" />
    <Label fx:id="labelClasseur" layoutX="476.0" layoutY="185.0" />
-   <Label fx:id="labelMorceau" layoutX="450.0" layoutY="459.0" textFill="RED" />
+   <Label fx:id="labelPartition" layoutX="450.0" layoutY="459.0" textFill="RED" />
    <Label fx:id="identifiants" layoutX="490.0" layoutY="24.0" />
 
 </AnchorPane>

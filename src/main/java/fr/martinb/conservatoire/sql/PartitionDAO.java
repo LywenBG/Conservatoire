@@ -17,6 +17,14 @@ public class PartitionDAO {
         connection = DAO.getConnection();
     }
 
+    /**
+     * Retourne une partition à partir de son titre et son auteyr
+     *
+     * @param titre
+     * @param auteur
+     * @return
+     * @throws SQLException
+     */
     public ResultSet getPartition(String titre, String auteur) throws SQLException {
         preparedStatement = connection.prepareStatement("""
             SELECT * FROM PARTITIONS
@@ -30,6 +38,14 @@ public class PartitionDAO {
         return preparedStatement.executeQuery();
     }
 
+    /**
+     * Ajoute une partition pour un élève
+     *
+     * @param eleveNum Le numéro de l'élève
+     * @param partitionNum Le numéro de la partition
+     * @param classeurNum Le numéro du classeur
+     * @throws SQLException Si la requête n'abouti pas
+     */
     public void ajouterPartitionPourEleve(int eleveNum, int partitionNum, int classeurNum) throws SQLException {
         preparedStatement = connection.prepareStatement("""
             INSERT INTO PARTITIONELEVE VALUES (?, ?, ?);
@@ -42,7 +58,14 @@ public class PartitionDAO {
         preparedStatement.executeUpdate();
     }
 
-    public void ajouterPartition(String partitionNom, String partitionAuteur) throws SQLException {
+    /**
+     * Ajoute une partition dans la base de donnée
+     *
+     * @param partitionTitre Le nom de la partition
+     * @param partitionAuteur L'auteur de la partition
+     * @throws SQLException Si la requête n'abouti pas
+     */
+    public void ajouterPartition(String partitionTitre, String partitionAuteur) throws SQLException {
 
         try (ResultSet resultSet = DAO.getStatement().executeQuery("""
                 SELECT MAX(PARNUM) FROM PARTITIONS;
@@ -54,16 +77,23 @@ public class PartitionDAO {
             """);
 
             preparedStatement.setInt(1, resultSet.getInt(1) + 1);
-            preparedStatement.setString(2, partitionNom);
+            preparedStatement.setString(2, partitionTitre);
             preparedStatement.setString(3, partitionAuteur);
 
             preparedStatement.executeUpdate();
         }
     }
 
+    /**
+     * Supprime une partition
+     *
+     * @param titre Titre de la partition
+     * @param auteur Auteur de la partition
+     * @throws SQLException Si la requête n'abouti pas
+     */
     public void supprimerPartition(String titre, String auteur) throws SQLException {
         ResultSet resultSet = getPartition(titre, auteur);
-        if (!resultSet.next()) return;
+        if(!resultSet.next()) return;
 
         Eleve eleve = App.getEleve();
         int numero = resultSet.getInt("PARNUM");

@@ -8,6 +8,12 @@ import java.util.Locale;
 
 public class MenuController {
 
+    /**
+     * Amène à la page de la liste des partitions
+     * Ne fait rien si l'élève est null (il ne s'est pas connecté) ou si l'élève se trouve déjà dans la page de la liste des partitions
+     *
+     * @throws IOException Si le chemin vers cette page n'existe pas
+     */
     @FXML
     private void saisie() throws IOException {
         String partition = "Partitions";
@@ -16,6 +22,12 @@ public class MenuController {
         App.getStage().setTitle(partition);
     }
 
+    /**
+     * Amène à la page des partitions de l'élève
+     * Ne fait rien si l'élève est null (il ne s'est pas connecté) ou si l'élève se trouve déjà dans la page de ses partitions
+     *
+     * @throws IOException Si le chemin vers cette page n'existe pas
+     */
     @FXML
     private void recherche() throws IOException {
         String eleve = "Eleve";

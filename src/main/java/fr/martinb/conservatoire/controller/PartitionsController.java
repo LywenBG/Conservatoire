@@ -41,16 +41,14 @@ public class PartitionsController implements Initializable {
     private Button ajouterButton;
 
 
-
     @FXML
-    private Label labelMorceau;
+    private Label labelPartition;
 
     @FXML
     private TextField auteur;
 
     @FXML
-    private TextField morceau;
-
+    private TextField titre;
 
 
     @FXML
@@ -58,8 +56,16 @@ public class PartitionsController implements Initializable {
 
     private PartitionDAO partitionDAO;
 
-    private final Map<String, String[]> morceaux = new HashMap<>();
+    private final Map<String, String[]> partitions = new HashMap<>();
 
+    /**
+     * Initialise la page en mettant dans ListView toutes les partitions stockées dans la BDD
+     * Va aussi lier le string de cette listview au nom de l'auteur dans une hashmap
+     * Ce qui va nous permettre de récupérer l'auteur juste à partir de l'élément qu'on a sélectionné dans la ListView
+     *
+     * @param url L'URL vers la ressource. Dans ce contexte, cela peut être null.
+     * @param resourceBundle Le ResourceBundle associé à la ressource. Dans ce contexte, cela peut être null.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         partitionDAO = new PartitionDAO();
@@ -77,7 +83,7 @@ public class PartitionsController implements Initializable {
                 String phrase = titre + " - " + auteur;
 
                 list.getItems().add(phrase);
-                morceaux.put(phrase, new String[]{titre, auteur});
+                partitions.put(phrase, new String[]{titre, auteur});
             }
             list.getItems().sort(String.CASE_INSENSITIVE_ORDER);
             
@@ -86,33 +92,48 @@ public class PartitionsController implements Initializable {
         }
     }
 
+    /**
+     * Ajoute une partition dans la base de donnée
+     * Va aussi l'ajouter dans la ListView en temps réel
+     * Ainsi que la mettre dans la hashmap
+     *
+     * @throws SQLException Si la requête n'abouti pas
+     */
     @FXML
-    private void ajouterMorceau() throws SQLException {
+    private void ajouterPartition() throws SQLException {
         String auteurTexte = auteur.getText();
-        String morceauTexte = morceau.getText();
+        String titreText = titre.getText();
 
-        if(auteurTexte.isEmpty() || morceauTexte.isEmpty()) {
-            changeTexte(labelMorceau, "Veuillez remplir tous les champs", "red");
+        if(auteurTexte.isEmpty() || titreText.isEmpty()) {
+            changeTexte(labelPartition, "Veuillez remplir tous les champs", "red");
             return;
         }
 
-        ResultSet resultSet = partitionDAO.getPartition(morceauTexte, auteurTexte);
+        ResultSet resultSet = partitionDAO.getPartition(titreText, auteurTexte);
 
         if(resultSet.next()) {
-            changeTexte(labelMorceau, "Ce morceau existe déjà", "red");
+            changeTexte(labelPartition, "Cette partition existe déjà", "red");
             return;
         }
 
-        partitionDAO.ajouterPartition(morceauTexte, auteurTexte);
-        String phrase = morceauTexte + " - " + auteurTexte;
+        partitionDAO.ajouterPartition(titreText, auteurTexte);
+        String phrase = titreText + " - " + auteurTexte;
         list.getItems().add(phrase);
-        morceaux.put(phrase, new String[]{morceauTexte, auteurTexte});
+        partitions.put(phrase, new String[]{titreText, auteurTexte});
         list.getItems().sort(String.CASE_INSENSITIVE_ORDER);
-        changeTexte(labelMorceau, "Morceau ajouté", "green");
+        changeTexte(labelPartition, "Partition ajoutée", "green");
         auteur.clear();
-        morceau.clear();
+        titre.clear();
     }
 
+    /**
+     * Va ajouter la partition au classeur de l'élève connecté avec la page de l'insertion
+     * Tout en regardant que le numéro du classeur est valide (entre 1 et 1000)
+     * En regardant si la partition est déjà dans le classeur
+     * Et en regardant si la page du classeur est déjà utilisé
+     *
+     * @throws SQLException Si la requête n'abouti pas
+     */
     @FXML
     private void ajouterClasseur() throws SQLException {
         String numeroString = numeroTextField.getText();
@@ -121,8 +142,8 @@ public class PartitionsController implements Initializable {
             return;
         }
 
-        String[] morceau = morceaux.get(list.getSelectionModel().selectedItemProperty().getValue());
-        ResultSet resultSet = partitionDAO.getPartition(morceau[0], morceau[1]);
+        String[] partitionString = partitions.get(list.getSelectionModel().selectedItemProperty().getValue());
+        ResultSet resultSet = partitionDAO.getPartition(partitionString[0], partitionString[1]);
         resultSet.next();
 
         Eleve eleve = App.getEleve();
@@ -133,7 +154,7 @@ public class PartitionsController implements Initializable {
                 resultSet.getString("PARAUTEUR"));
 
         if(eleve.getPartitions().stream().map(Partition::getNumero).anyMatch(p -> p == partition.getNumero())) {
-            changeTexte(labelClasseur, "Ce morceau est déjà dans votre classeur", "red");
+            changeTexte(labelClasseur, "Cette partition est déjà dans votre classeur", "red");
             return;
         }
 
@@ -145,13 +166,17 @@ public class PartitionsController implements Initializable {
 
         partition.setPage(page);
         partitionDAO.ajouterPartitionPourEleve(eleve.getNumero(), partition.getNumero(), page);
-        changeTexte(labelClasseur, "Morceau ajouté", "green");
+        changeTexte(labelClasseur, "Partition ajoutée", "green");
         numeroTextField.clear();
         eleve.getPartitions().add(partition);
     }
 
+    /**
+     * Si on sélectionne une partition va afficher les éléments pour sélectionner la page du classeur et
+     * Le bouton pour ajouter le classeur
+     */
     @FXML
-    private void selectionMorceau() {
+    private void selectionPartition() {
         if(list.getSelectionModel().getSelectedItem() != null) {
             texte.setVisible(true);
             numeroTextField.setVisible(true);
@@ -160,6 +185,13 @@ public class PartitionsController implements Initializable {
         }
     }
 
+    /**
+     * Change le texte
+     *
+     * @param label Le label à changer
+     * @param texte Le texte à changer
+     * @param couleur La couleur à changer, vert pour un succès, rouge pour un échec
+     */
     private void changeTexte(Label label, String texte, String couleur) {
         label.setStyle("-fx-text-fill: " + couleur + ";");
         label.setText(texte + ".");

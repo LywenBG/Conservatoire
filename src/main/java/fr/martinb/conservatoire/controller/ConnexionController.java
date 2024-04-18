@@ -26,6 +26,13 @@ public class ConnexionController {
     @FXML
     private Label erreur;
 
+    /**
+     * Se connecte en regardant que les identifiants existent bien et crée un nouvel Eleve à partir des informations de la BDD
+     * tout en changeant la page vers celle d'accueil
+     *
+     * @throws SQLException Si la requête SQL n'aboutit pas
+     * @throws IOException Si le chemin vers le nouveau Root n'existe pas
+     */
     @FXML
     private void seConnecter() throws SQLException, IOException {
         if(identifiant.getText().isEmpty() || mdp.getText().isEmpty()) {
